@@ -4,7 +4,7 @@
   "description": "EnviroScopeMap Backend API",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn src/server.ts",
+    "dev": "ts-node-dev --respawn  src/server.ts",
     "build": "tsc"
   },
   "keywords": [],
@@ -12,6 +12,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "axios": "^1.18.1",
+    "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "cors": "^2.8.6",
@@ -19,7 +21,8 @@
     "express": "^5.2.1",
     "helmet": "^8.2.0",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.6.3"
+    "mongodb": "^7.3.0",
+    "mongoose": "^8.24.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
