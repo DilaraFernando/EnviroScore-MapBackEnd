@@ -44,5 +44,4 @@ const DistrictScoreSchema = new Schema<IDistrictScore>(
   },
   { timestamps: true }
 );
-
 export default mongoose.model<IDistrictScore>("DistrictScore", DistrictScoreSchema);

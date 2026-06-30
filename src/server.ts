@@ -6,19 +6,29 @@ import cors from 'cors';
 import connectDB from './config/db';
 import helmet from 'helmet';
 import authRoutes from "./routes/authRoutes";
-import calculateRoutes from "./routes/calculateRoute"; // 🎯 1. මෙන්න මෙතනින් Auth Routes ටික Import කරගන්න!
-import weatherRoutes from "./routes/weatherRoute"; // Weather Routes Import
+import calculateRoutes from "./routes/calculateRoute";
+import weatherRoutes from "./routes/weatherRoute"; 
 
 const app = express();
 
-// Middlewares
-app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173'], // Explicitly whitelist frontend development origins
-  credentials: true,
-  allowedHeaders: ['Authorization', 'Content-Type']
-}));
+const PORT = process.env.PORT || 5000;
 
-// Content Security Policy (CSP) Configuration to fix the browser loading block
+const allowedOrigins = process.env.FRONTEND_ORIGIN
+  ? process.env.FRONTEND_ORIGIN.split(",")
+  : ["http://localhost:5173", "http://localhost:4173"];
+const backendUrl = process.env.BACKEND_URL || "http://localhost:5000";
+const wsBackendUrl = process.env.WS_BACKEND_URL || "ws://localhost:5000";
+
+// Middlewares
+app.use(
+  cors({
+    origin: allowedOrigins, // Explicitly whitelist frontend origins
+    credentials: true,
+    allowedHeaders: ["Authorization", "Content-Type"],
+  }),
+);
+
+// Content Security Policy Configuration to fix the browser loading block
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -42,14 +52,10 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 
-// 🚀 2. මෙන්න මෙතනදී Auth Router එක සර්වර් එකට සම්බන්ධ කරන්න!
-// මේ ලයින් එක නිසා තමයි http://localhost:5000/api/auth/login කියන URL එක ක්‍රියාත්මක වෙන්නේ
 app.use('/api/auth', authRoutes);
 app.use("/api/calculate", calculateRoutes);
-app.use("/api/weather", weatherRoutes); // Weather Route එක සම්බන්ධ කිරීම
+app.use("/api/weather", weatherRoutes); 
 
-
-// Root Route (දැන් තියෙන Routes ලිස්ට් එකට ලොගින් එකත් එකතු කළා)
 app.get('/', (req, res) => {
   res.send(`
     <h1>✅ EnviroScopeMap Backend is Running Successfully!</h1>
@@ -72,7 +78,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+  
 
 const startServer = async () => {
   try {
