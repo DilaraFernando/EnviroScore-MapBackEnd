@@ -7,6 +7,7 @@ import connectDB from './config/db';
 import helmet from 'helmet';
 import authRoutes from "./routes/authRoutes";
 import calculateRoutes from "./routes/calculateRoute"; // 🎯 1. මෙන්න මෙතනින් Auth Routes ටික Import කරගන්න!
+import weatherRoutes from "./routes/weatherRoute"; // Weather Routes Import
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 // මේ ලයින් එක නිසා තමයි http://localhost:5000/api/auth/login කියන URL එක ක්‍රියාත්මක වෙන්නේ
 app.use('/api/auth', authRoutes);
 app.use("/api/calculate", calculateRoutes);
+app.use("/api/weather", weatherRoutes); // Weather Route එක සම්බන්ධ කිරීම
 
 
 // Root Route (දැන් තියෙන Routes ලිස්ට් එකට ලොගින් එකත් එකතු කළා)
@@ -56,6 +58,7 @@ app.get('/', (req, res) => {
     <p>Available Routes:</p>
     <ul>
       <li><a href="/api/health">/api/health</a></li>
+      <li><a href="/api/weather">/api/weather</a></li>
       <li><strong>POST:</strong> /api/auth/login (Frontend Login Connection Endpoint)</li>
     </ul>
   `);
